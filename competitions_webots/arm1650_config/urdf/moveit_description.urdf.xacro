@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<robot name="mcx_robot" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find arm1650_description)/resource/urdf/arm1650.urdf"/>
+</robot>
