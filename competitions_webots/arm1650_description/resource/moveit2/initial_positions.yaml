@@ -1,0 +1,9 @@
+# Default initial positions for pr15's ros2_control fake system
+
+initial_positions:
+  pr15_elbow_joint: 0
+  pr15_shoulder_lift_joint: 0
+  pr15_shoulder_pan_joint: 0
+  pr15_wrist1_joint: 0
+  pr15_wrist2_joint: 0
+  pr15_wrist3_joint: 0
