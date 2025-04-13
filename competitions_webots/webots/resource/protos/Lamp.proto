@@ -1,0 +1,186 @@
+#VRML_SIM R2023b utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# Сигнальная лампа
+
+PROTO Lamp [
+  field SFVec3f translation 0 0 0
+  field SFRotation rotation 0 0 1 0
+  field SFString name "lamp"
+  field SFString controller "<extern>"
+]
+{
+Robot {
+  translation IS translation 
+  rotation IS rotation
+  name IS name
+  controller IS controller
+  children [
+    Solid {
+      children [
+        CadShape {
+          url [
+            "../assets/Lamp.dae"
+          ]
+        }
+      ]
+      boundingObject Group {
+        children [
+          Pose {
+            translation 0 0 0.024
+            children [
+              Box {
+                size 0.11 0.095 0.048
+              }
+            ]
+          }
+          Pose {
+            translation 0 0 0.24
+            children [
+              Box {
+                size 0.057 0.057 0.479
+              }
+            ]
+          }
+          
+          
+
+
+
+
+
+        ]
+      }
+    }
+    LED {
+      translation 0 0 0.44
+      children [
+        Group {
+          children [
+            PointLight {
+              attenuation 0 0 1
+              color 0 0 0
+              intensity 0.5
+              location 0 0 0.08
+              on FALSE
+              castShadows TRUE
+            }
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.878431 0.105882 0.141176
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.06
+                radius 0.029
+              }
+            }
+          ]
+        }
+      ]
+      name "led3"
+      gradual TRUE
+    }
+    LED {
+      translation 0 0 0.37
+      children [
+        Group {
+          children [
+            PointLight {
+              attenuation 0 0 1
+              color 0 0 0
+              intensity 0.5
+              location 0 0 0.08
+              on FALSE
+              castShadows TRUE
+            }
+            Shape {
+              appearance PBRAppearance {
+                baseColor 1 0.470588 0
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.06
+                radius 0.029
+              }
+            }
+          ]
+        }
+      ]
+      name "led2"
+      color [
+        1 0.470588 0
+      ]
+      gradual TRUE
+    }
+    LED {
+      translation 0 0 0.305
+      children [
+        Group {
+          children [
+            PointLight {
+              attenuation 0 0 1
+              color 0 0 0
+              intensity 0.5
+              location 0 0 0.08
+              on FALSE
+              castShadows TRUE
+            }
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0 0.470588 0
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.06
+                radius 0.029
+              }
+            }
+          ]
+        }
+      ]
+      name "led1"
+      color [
+        0 0.470588 0
+      ]
+      gradual TRUE
+    }
+    LED {
+      translation 0 0 0.237
+      children [
+        Group {
+          children [
+            PointLight {
+              attenuation 0 0 1
+              color 0 0 0
+              intensity 0.5
+              location 0 0 0.08
+              on FALSE
+              castShadows TRUE
+            }
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.101961 0.372549 0.705882
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.06
+                radius 0.029
+              }
+            }
+          ]
+        }
+      ]
+      name "led0"
+      color [
+        0.109804 0.443137 0.847059
+      ]
+      gradual TRUE
+    }
+  ]
+}
+}
