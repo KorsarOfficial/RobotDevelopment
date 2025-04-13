@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<robot name="Camera">
+    <webots>
+        <device reference="camera" type="Camera">
+            <ros>
+                <enabled>true</enabled>
+                <topicName>/head_front_camera/rgb</topicName>
+                <imageSuffix>/image_raw</imageSuffix>
+                <alwaysOn>true</alwaysOn>
+                <frameName>head_front_camera_rgb_optical_frame</frameName>
+            </ros>
+        </device>
+    </webots>
+</robot>
