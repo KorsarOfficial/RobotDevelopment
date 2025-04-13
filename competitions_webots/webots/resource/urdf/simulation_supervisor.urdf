@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<robot name="SimulationSupervisor">
+    <webots>
+        <plugin type="webots.simulation_supervisor.SimulationSupervisor" />
+    </webots>
+</robot>
