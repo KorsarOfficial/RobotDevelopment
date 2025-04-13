@@ -1,0 +1,132 @@
+# Работа с сервоприводами в RISDK
+
+## Основная информация
+Сервопривод - это исполнительное устройство, которое позволяет точно контролировать угловое положение, скорость вращения и ускорение.
+В RISDK предусмотрены различные функции для работы с сервоприводами, включая стандартные сервоприводы и сервоприводы непрерывного вращения.
+
+## Типы сервоприводов
+1. **Стандартный сервопривод (ServoDrive)** - позволяет установить конкретный угол поворота выходного вала в пределах рабочего диапазона.
+2. **Сервопривод непрерывного вращения (RServoDrive)** - обеспечивает непрерывное вращение с контролем скорости.
+
+## Инициализация и связывание сервопривода
+
+```c
+// Создание компонента сервопривода
+RISDK_COMPONENT_HANDLE servo_handle = RI_SDK_exec_ServoDrive_Extend(sdk_handle, servo_id);
+
+// Связывание сервопривода с контроллером
+RI_SDK_LinkServodriveToController(sdk_handle, controller_handle, servo_handle);
+```
+
+## Основные функции для работы с сервоприводами
+
+### Управление угловым положением
+```c
+// Поворот сервопривода на указанный угол
+RI_SDK_exec_ServoDrive_Turn(servo_handle, angle);
+
+// Поворот сервопривода в начальное (нулевое) положение
+RI_SDK_exec_ServoDrive_TurnZero(servo_handle);
+
+// Установка нового нулевого положения
+RI_SDK_exec_ServoDrive_SetZero(servo_handle);
+
+// Установка угла поворота с указанием временного интервала движения
+RI_SDK_exec_ServoDrive_TurnS(servo_handle, angle, seconds);
+```
+
+### Настройка параметров сервопривода
+```c
+// Установка минимального угла поворота
+RI_SDK_exec_ServoDrive_SetMinAngle(servo_handle, min_angle);
+
+// Установка максимального угла поворота
+RI_SDK_exec_ServoDrive_SetMaxAngle(servo_handle, max_angle);
+
+// Установка ограничения скорости поворота
+RI_SDK_exec_ServoDrive_SetSpeed(servo_handle, speed);
+
+// Включение/выключение сервопривода
+RI_SDK_exec_ServoDrive_Enable(servo_handle, enable);
+```
+
+### Получение информации о сервоприводе
+```c
+// Получение текущего угла поворота
+float current_angle = RI_SDK_exec_ServoDrive_GetAngle(servo_handle);
+
+// Получение минимального угла поворота
+float min_angle = RI_SDK_exec_ServoDrive_GetMinAngle(servo_handle);
+
+// Получение максимального угла поворота
+float max_angle = RI_SDK_exec_ServoDrive_GetMaxAngle(servo_handle);
+
+// Проверка, находится ли сервопривод в движении
+bool is_moving = RI_SDK_exec_ServoDrive_IsMoving(servo_handle);
+```
+
+## Работа с сервоприводами непрерывного вращения (RServoDrive)
+
+### Инициализация
+```c
+// Создание компонента сервопривода непрерывного вращения
+RISDK_COMPONENT_HANDLE rservo_handle = RI_SDK_exec_RServoDrive_Extend(sdk_handle, rservo_id);
+
+// Связывание сервопривода непрерывного вращения с контроллером
+RI_SDK_LinkRServodriveToController(sdk_handle, controller_handle, rservo_handle);
+```
+
+### Управление вращением
+```c
+// Установка скорости вращения (в процентах от максимальной)
+RI_SDK_exec_RServoDrive_SetSpeed(rservo_handle, speed_percent);
+
+// Остановка вращения
+RI_SDK_exec_RServoDrive_Stop(rservo_handle);
+```
+
+## Пример использования сервоприводов в Python
+
+```python
+# Инициализация SDK
+sdk_handle = RI_SDK_InitSDK()
+
+# Создание компонента устройства
+device = RI_SDK_CreateDeviceComponent(sdk_handle, "RM002")
+
+# Создание сервопривода
+servo1 = RI_SDK_exec_ServoDrive_Extend(sdk_handle, 1)
+servo2 = RI_SDK_exec_ServoDrive_Extend(sdk_handle, 2)
+
+# Установка ограничений угла поворота
+RI_SDK_exec_ServoDrive_SetMinAngle(servo1, 0.0)
+RI_SDK_exec_ServoDrive_SetMaxAngle(servo1, 180.0)
+
+# Выполнение последовательности поворотов
+RI_SDK_exec_ServoDrive_Turn(servo1, 90.0)  # Поворот на 90 градусов
+time.sleep(1)
+RI_SDK_exec_ServoDrive_Turn(servo2, 45.0)  # Поворот на 45 градусов
+time.sleep(1)
+
+# Проверка текущего положения
+current_angle = RI_SDK_exec_ServoDrive_GetAngle(servo1)
+print(f"Текущий угол сервопривода 1: {current_angle} градусов")
+
+# Завершение работы
+RI_SDK_DestroyComponent(servo1)
+RI_SDK_DestroyComponent(servo2)
+RI_SDK_DestroyComponent(device)
+RI_SDK_DestroySDK(sdk_handle)
+```
+
+## Рекомендации по работе с сервоприводами
+1. Всегда устанавливайте ограничения угла поворота, чтобы избежать повреждения механизмов.
+2. Отслеживайте состояние сервопривода с помощью функции `IsMoving` перед отправкой новых команд.
+3. При работе с несколькими сервоприводами используйте групповые компоненты для синхронизации движения.
+4. Правильно освобождайте ресурсы сервопривода после завершения работы с ним.
+
+## Возможные проблемы и их решения
+- **Сервопривод не двигается**: Проверьте подключение и питание, убедитесь, что сервопривод включен (Enable=true).
+- **Рывки при движении**: Уменьшите скорость поворота или увеличьте время поворота.
+- **Неточное позиционирование**: Откалибруйте сервопривод, установив правильное нулевое положение.
+- **Перегрев**: Уменьшите нагрузку и обеспечьте достаточное охлаждение, увеличьте паузы между движениями. 
