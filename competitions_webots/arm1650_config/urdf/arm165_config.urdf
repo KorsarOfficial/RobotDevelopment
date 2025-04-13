@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<robot name="ARM165" version="1.0">
+        <webots>
+            <plugin type="webots_ros2_control::Ros2Control"/>
+        </webots>
+        <ros2_control name="6dof_control" type="system">
+            <hardware>
+                <plugin>webots_ros2_control::Ros2ControlSystem</plugin>
+            </hardware>
+
+        <joint name="Joint1">
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <command_interface name="position"/>
+            <param name="initial_position">0.0</param>
+        </joint>
+
+        <joint name="Joint2">
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <command_interface name="position"/>
+            <param name="initial_position">0.0</param>
+        </joint> 
+
+        <joint name="Joint3">
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <command_interface name="position"/>
+            <param name="initial_position">0.0</param>
+        </joint> 
+
+        <joint name="Joint4">
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <command_interface name="position"/>
+            <param name="initial_position">0.0</param>
+        </joint> 
+
+        <joint name="Joint5">
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <command_interface name="position"/>
+            <param name="initial_position">0.0</param>
+        </joint> 
+
+        <joint name="Joint6">
+            <state_interface name="position"/>
+            <state_interface name="velocity"/>
+            <command_interface name="position"/>
+            <param name="initial_position">0.0</param>
+        </joint>
+             
+
+        </ros2_control>
+</robot>
