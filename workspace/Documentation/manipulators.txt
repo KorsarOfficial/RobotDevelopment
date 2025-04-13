@@ -1,0 +1,191 @@
+# Работа с манипуляторами в RISDK
+
+## Введение
+Манипулятор - это механическая система, предназначенная для перемещения объектов в пространстве. В RISDK предусмотрены различные функции и компоненты для работы с манипуляторами разных типов и конфигураций.
+
+## Основные компоненты манипулятора
+1. **Звенья (Links)** - жесткие элементы, соединяющие суставы манипулятора.
+2. **Суставы (Joints)** - подвижные соединения между звеньями, обычно представленные сервоприводами.
+3. **Рабочий орган (End Effector)** - инструмент на конце манипулятора (захват, инструмент и т.д.).
+4. **Основание (Base)** - неподвижная часть, к которой крепится вся кинематическая цепь.
+
+## Создание и инициализация манипулятора
+
+```c
+// Создание компонента манипулятора
+RISDK_COMPONENT_HANDLE manipulator_handle = RI_SDK_CreateManipulatorComponent(sdk_handle, "RM-002");
+
+// Связывание манипулятора с контроллером
+RI_SDK_LinkManipulatorToController(sdk_handle, controller_handle, manipulator_handle);
+
+// Инициализация манипулятора
+RI_SDK_exec_Manipulator_Initialize(manipulator_handle);
+```
+
+## Кинематика манипулятора
+
+### Прямая кинематика (Forward Kinematics)
+Прямая кинематика позволяет рассчитать положение и ориентацию рабочего органа по заданным углам суставов.
+
+```c
+// Получение текущих координат рабочего органа в пространстве
+RI_SDK_Position position;
+RI_SDK_exec_Manipulator_GetPosition(manipulator_handle, &position);
+```
+
+### Обратная кинематика (Inverse Kinematics)
+Обратная кинематика позволяет рассчитать углы суставов для достижения заданного положения рабочего органа.
+
+```c
+// Установка целевой позиции рабочего органа
+RI_SDK_Position target_position = {x, y, z, roll, pitch, yaw};
+RI_SDK_exec_Manipulator_SetPosition(manipulator_handle, &target_position);
+```
+
+## Управление манипулятором
+
+### Перемещение в заданную позицию
+```c
+// Перемещение в заданную позицию в декартовых координатах
+RI_SDK_Position target = {x, y, z, roll, pitch, yaw};
+RI_SDK_exec_Manipulator_MoveTo(manipulator_handle, &target);
+
+// Перемещение в заданное положение по углам суставов
+float joint_angles[6] = {angle1, angle2, angle3, angle4, angle5, angle6};
+RI_SDK_exec_Manipulator_MoveJoints(manipulator_handle, joint_angles);
+```
+
+### Линейное перемещение
+```c
+// Линейное перемещение из текущей позиции в заданную
+RI_SDK_Position target = {x, y, z, roll, pitch, yaw};
+RI_SDK_exec_Manipulator_LinearMove(manipulator_handle, &target);
+```
+
+### Управление скоростью и ускорением
+```c
+// Установка максимальной скорости движения (в процентах)
+RI_SDK_exec_Manipulator_SetSpeed(manipulator_handle, speed_percent);
+
+// Установка максимального ускорения (в процентах)
+RI_SDK_exec_Manipulator_SetAcceleration(manipulator_handle, accel_percent);
+```
+
+## Работа с рабочей областью
+
+### Определение рабочей области
+```c
+// Установка границ рабочей области
+RI_SDK_WorkspaceVolume workspace;
+workspace.min_x = -500.0;
+workspace.max_x = 500.0;
+workspace.min_y = -500.0;
+workspace.max_y = 500.0;
+workspace.min_z = 0.0;
+workspace.max_z = 800.0;
+RI_SDK_exec_Manipulator_SetWorkspaceVolume(manipulator_handle, &workspace);
+```
+
+### Проверка достижимости позиции
+```c
+// Проверка, достижима ли заданная позиция
+RI_SDK_Position position = {x, y, z, roll, pitch, yaw};
+bool reachable = RI_SDK_exec_Manipulator_IsReachable(manipulator_handle, &position);
+```
+
+## Работа с захватом (Gripper)
+
+### Инициализация и связывание захвата
+```c
+// Создание компонента захвата
+RISDK_COMPONENT_HANDLE gripper_handle = RI_SDK_CreateGripperComponent(sdk_handle, "G-001");
+
+// Связывание захвата с манипулятором
+RI_SDK_LinkGripperToManipulator(sdk_handle, manipulator_handle, gripper_handle);
+```
+
+### Управление захватом
+```c
+// Открытие захвата
+RI_SDK_exec_Gripper_Open(gripper_handle);
+
+// Закрытие захвата
+RI_SDK_exec_Gripper_Close(gripper_handle);
+
+// Установка степени открытия захвата (0.0 - полностью закрыт, 1.0 - полностью открыт)
+RI_SDK_exec_Gripper_SetOpeningRatio(gripper_handle, 0.5); // Открыт наполовину
+```
+
+## Траектории движения
+
+### Создание траектории
+```c
+// Создание новой траектории
+RISDK_TRAJECTORY_HANDLE trajectory = RI_SDK_CreateTrajectory(sdk_handle);
+
+// Добавление точек в траекторию
+RI_SDK_Position point1 = {x1, y1, z1, roll1, pitch1, yaw1};
+RI_SDK_Position point2 = {x2, y2, z2, roll2, pitch2, yaw2};
+RI_SDK_AddTrajectoryPoint(trajectory, &point1);
+RI_SDK_AddTrajectoryPoint(trajectory, &point2);
+
+// Выполнение движения по траектории
+RI_SDK_exec_Manipulator_MoveTrajectory(manipulator_handle, trajectory);
+
+// Освобождение ресурсов траектории
+RI_SDK_DestroyTrajectory(trajectory);
+```
+
+## Пример использования манипулятора в Python
+
+```python
+# Инициализация SDK
+sdk_handle = RI_SDK_InitSDK()
+
+# Создание компонента устройства
+device = RI_SDK_CreateDeviceComponent(sdk_handle, "RM002")
+
+# Создание манипулятора
+manipulator = RI_SDK_CreateManipulatorComponent(sdk_handle, "RM002")
+
+# Связывание манипулятора с устройством
+RI_SDK_LinkManipulatorToController(sdk_handle, device, manipulator)
+
+# Инициализация манипулятора
+RI_SDK_exec_Manipulator_Initialize(manipulator)
+
+# Установка скорости и ускорения
+RI_SDK_exec_Manipulator_SetSpeed(manipulator, 50.0)  # 50% от максимальной скорости
+RI_SDK_exec_Manipulator_SetAcceleration(manipulator, 30.0)  # 30% от максимального ускорения
+
+# Переход в домашнюю позицию
+RI_SDK_exec_Manipulator_Home(manipulator)
+
+# Создание целевой позиции
+target_position = RI_SDK_Position(x=200.0, y=0.0, z=300.0, roll=0.0, pitch=90.0, yaw=0.0)
+
+# Перемещение в целевую позицию
+RI_SDK_exec_Manipulator_MoveTo(manipulator, target_position)
+
+# Ожидание завершения движения
+while RI_SDK_exec_Manipulator_IsMoving(manipulator):
+    time.sleep(0.1)
+
+# Закрытие ресурсов
+RI_SDK_DestroyComponent(manipulator)
+RI_SDK_DestroyComponent(device)
+RI_SDK_DestroySDK(sdk_handle)
+```
+
+## Рекомендации по работе с манипуляторами
+1. Всегда инициализируйте манипулятор перед началом работы.
+2. Устанавливайте разумные ограничения скорости и ускорения для безопасной работы.
+3. Используйте проверку достижимости перед выполнением движения.
+4. При необходимости точного позиционирования используйте линейное перемещение.
+5. Для сложных траекторий создавайте списки точек и используйте функцию MoveTrajectory.
+
+## Возможные проблемы и их решения
+- **Недостижимая позиция**: Проверяйте достижимость позиции перед выполнением движения.
+- **Столкновения**: Задайте корректную рабочую область и используйте планирование траектории.
+- **Рывки при движении**: Уменьшите скорость и ускорение, используйте плавные переходы между точками.
+- **Неточное позиционирование**: Выполните калибровку манипулятора, проверьте кинематическую модель. 
