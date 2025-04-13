@@ -1,0 +1,173 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+
+WorldInfo {
+  info [
+    "Example use of a LED device."
+  ]
+  title "LED"
+}
+Viewpoint {
+  orientation 0.08803172648647373 0.053092266999336564 -0.9947017775779239 1.671183340170047
+  position 0.04863880969596357 0.6928509260677386 0.3990679300403793
+}
+TexturedBackground {
+  texture "dusk"
+}
+TexturedBackgroundLight {
+  texture "dusk"
+}
+RectangleArena {
+}
+Robot {
+  children [
+    Solid {
+      children [
+        CadShape {
+          url [
+            "../../Lamp_2.dae"
+          ]
+        }
+      ]
+      boundingObject Mesh {
+        url [
+          "../../Lamp_2.dae"
+        ]
+      }
+    }
+    LED {
+      translation 0 0 0.44
+      children [
+        Group {
+          children [
+            PointLight {
+              attenuation 0 0 1
+              color 0 0 0
+              intensity 0.5
+              location 0 0 0.08
+              on FALSE
+              castShadows TRUE
+            }
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.878431 0.105882 0.141176
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.06
+                radius 0.029
+              }
+            }
+          ]
+        }
+      ]
+      name "led3"
+      gradual TRUE
+    }
+    LED {
+      translation 0 0 0.37
+      children [
+        Group {
+          children [
+            PointLight {
+              attenuation 0 0 1
+              color 0 0 0
+              intensity 0.5
+              location 0 0 0.08
+              on FALSE
+              castShadows TRUE
+            }
+            Shape {
+              appearance PBRAppearance {
+                baseColor 1 0.470588 0
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.06
+                radius 0.029
+              }
+            }
+          ]
+        }
+      ]
+      name "led2"
+      color [
+        1 0.470588 0
+      ]
+      gradual TRUE
+    }
+    LED {
+      translation 0 0 0.305
+      children [
+        Group {
+          children [
+            PointLight {
+              attenuation 0 0 1
+              color 0 0 0
+              intensity 0.5
+              location 0 0 0.08
+              on FALSE
+              castShadows TRUE
+            }
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0 0.470588 0
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.06
+                radius 0.029
+              }
+            }
+          ]
+        }
+      ]
+      name "led1"
+      color [
+        0 0.470588 0
+      ]
+      gradual TRUE
+    }
+    LED {
+      translation 0 0 0.237
+      children [
+        Group {
+          children [
+            PointLight {
+              attenuation 0 0 1
+              color 0 0 0
+              intensity 0.5
+              location 0 0 0.08
+              on FALSE
+              castShadows TRUE
+            }
+            Shape {
+              appearance PBRAppearance {
+                baseColor 0.101961 0.372549 0.705882
+                roughness 1
+                metalness 0
+              }
+              geometry Cylinder {
+                height 0.06
+                radius 0.029
+              }
+            }
+          ]
+        }
+      ]
+      name "led0"
+      color [
+        0.109804 0.443137 0.847059
+      ]
+      gradual TRUE
+    }
+  ]
+  name "lamp"
+  controller "<extern>"
+}
