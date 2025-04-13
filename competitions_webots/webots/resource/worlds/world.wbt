@@ -1,0 +1,28 @@
+#VRML_SIM R2023b utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/RectangleArena.proto"
+EXTERNPROTO "../protos/ARM165.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/devices/robotiq/protos/RobotiqEPickGripper.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.1743740860306135 0.05223968869374928 0.9832927809387032 2.9183386783376597
+  position 2.8944089416366827 -0.9839712298103231 2.8374226718910176
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+ARM165 {
+  controller "<extern>"
+  toolSlot [
+    RobotiqEPickGripper {
+      rotation 1 0 0 1.5707996938995747
+    }
+  ]
+}
