@@ -1,0 +1,298 @@
+<?xml version="1.0"?>
+<!-- created with Phobos 1.0.1 "Capricious Choutengan" -->
+  <robot name="ARM165" version="1.0">
+
+
+
+    <webots>
+        <plugin type="webots_ros2_control::Ros2Control"/>
+    </webots>
+
+    <ros2_control name="WebotsControl" type="system">
+        <hardware>
+            <plugin>webots_ros2_control::Ros2ControlSystem</plugin>
+        </hardware>
+
+    <joint name="Joint1">
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <command_interface name="position"/>
+        <param name="initial_position">0.0</param>
+    </joint>
+
+    <joint name="Joint2">
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <command_interface name="position"/>
+        <param name="initial_position">0.0</param>
+    </joint> 
+
+    <joint name="Joint3">
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <command_interface name="position"/>
+        <param name="initial_position">0.0</param>
+    </joint> 
+
+    <joint name="Joint4">
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <command_interface name="position"/>
+        <param name="initial_position">0.0</param>
+    </joint> 
+
+    <joint name="Joint5">
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <command_interface name="position"/>
+        <param name="initial_position">0.0</param>
+    </joint> 
+
+    <joint name="Joint6">
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <command_interface name="position"/>
+        <param name="initial_position">0.0</param>
+    </joint>
+          
+
+    </ros2_control>
+    <link name="world"/>
+    <joint name="world_fixed" type="fixed">
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+      <parent link="world"/>
+      <child link="Base_link"/>
+    </joint>
+
+
+    <link name="tool">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="4.021"/>
+        <inertia ixx="0.01299" ixy="0" ixz="0" iyy="0.01299" iyz="0" izz="0.02208"/>
+      </inertial>
+      <visual name="base_link">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://arm1650_description/resource/meshes/visual/robotiq_epick.stl" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </visual>
+      <collision name="base_link">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://arm1650_description/resource/meshes/visual/robotiq_epick.stl" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </collision>
+    </link>
+
+
+    <joint name="tool_frame" type="fixed">
+      <origin xyz="0.0 -0.095 0.0" rpy="1.57 0 0"/>
+      <parent link="Link6"/>
+      <child link="tool"/>
+    </joint>
+
+    <link name="tcp"/>
+
+    <joint name="tcp_frame" type="fixed">
+      <origin xyz="0.0 0.0 0.042" rpy="0 0 0"/>
+      <parent link="tool"/>
+      <child link="tcp"/>
+    </joint>
+
+
+
+
+
+    <link name="Base_link">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="4.021"/>
+        <inertia ixx="0.01299" ixy="0" ixz="0" iyy="0.01299" iyz="0" izz="0.02208"/>
+      </inertial>
+      <visual name="base_link">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://arm1650_description/resource/meshes/visual/base_link.dae" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </visual>
+      <collision name="base_link">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://arm1650_description/resource/meshes/collision/Base.stl" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="Link3">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="2.311"/>
+        <inertia ixx="0.03241" ixy="0" ixz="0" iyy="0.03123" iyz="0" izz="0.00438"/>
+      </inertial>
+      <visual name="forearm_link">
+        <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+        <geometry>
+          <mesh filename="package://arm1650_description/resource/meshes/visual/forearm_link.dae" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </visual>
+      <collision name="forearm_link">
+        <origin xyz="0 0 0.0" rpy="1.5708 0 0"/>
+        <geometry>
+          <mesh filename="package://arm1650_description/resource/meshes/collision/Link3.stl" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="Link1">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="3.661"/>
+        <inertia ixx="0.01843" ixy="0" ixz="0" iyy="0.01419" iyz="0" izz="0.01341"/>
+      </inertial>
+      <visual name="shoulder_link">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://arm1650_description/resource/meshes/visual/shoulder_link.dae" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </visual>
+      <collision name="shoulder_link">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://arm1650_description/resource/meshes/collision/Link1.stl" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="Link2">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="8.341"/>
+        <inertia ixx="0.30658" ixy="0" ixz="0" iyy="0.2933" iyz="0" izz="0.03147"/>
+      </inertial>
+      <visual name="upperarm_link">
+        <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+        <geometry>
+          <mesh filename="package://arm1650_description/resource/meshes/visual/upperarm_link.dae" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </visual>
+      <collision name="upperarm_link">
+        <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+        <geometry>
+          <mesh filename="package://arm1650_description/resource/meshes/collision/Link2.stl" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="Link4">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="1.291"/>
+        <inertia ixx="0.0025" ixy="0" ixz="0" iyy="0.00208" iyz="0" izz="0.00177"/>
+      </inertial>
+      <visual name="wrist1_link">
+        <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+        <geometry>
+          <mesh filename="package://arm1650_description/resource/meshes/visual/wrist1_link.dae" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </visual>
+      <collision name="wrist1_link">
+        <origin xyz="0 0 0" rpy="1.5708 0 0"/>
+        <geometry>
+          <mesh filename="package://arm1650_description/resource/meshes/collision/Link4.stl" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="Link5">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="1.291"/>
+        <inertia ixx="0.0025" ixy="0" ixz="0" iyy="0.00208" iyz="0" izz="0.00177"/>
+      </inertial>
+      <visual name="wrist2_link">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://arm1650_description/resource/meshes/visual/wrist2_link.dae" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </visual>
+      <collision name="wrist2_link">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://arm1650_description/resource/meshes/collision/Link5.stl" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <link name="Link6">
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.001"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <visual name="wrist3_link">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://arm1650_description/resource/meshes/visual/wrist3_link.dae" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </visual>
+      <collision name="wrist3_link">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://arm1650_description/resource/meshes/collision/Link6.stl" scale="1.0 1.0 1.0"/>
+        </geometry>
+      </collision>
+    </link>
+
+
+
+    <joint name="Joint1" type="revolute">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="Base_link"/>
+      <child link="Link1"/>
+      <axis xyz="0 0 1.0"/>
+      <limit lower="-3.14" upper="3.14" effort="0" velocity="1.745329251994"/>
+    </joint>
+
+    <joint name="Joint2" type="revolute">
+      <origin xyz="0 0 0.190" rpy="-1.5708 0 0"/>
+      <parent link="Link1"/>
+      <child link="Link2"/>
+      <axis xyz="0 0 1.0"/>
+      <limit lower="-3.14" upper="3.14" effort="0" velocity="1.745329251994"/>
+    </joint>
+
+
+    <joint name="Joint3" type="revolute">
+      <origin xyz="0 -0.8 0" rpy="0 0 0"/>
+      <parent link="Link2"/>
+      <child link="Link3"/>
+      <axis xyz="0 0 1.0"/>
+      <limit lower="-3.14" upper="3.14" effort="0" velocity="2.617993877992"/>
+    </joint>
+
+    <joint name="Joint4" type="revolute">
+      <origin xyz="0 -0.72 0" rpy="0 0 0"/>
+      <parent link="Link3"/>
+      <child link="Link4"/>
+      <axis xyz="0 0 1.0"/>
+      <limit lower="-3.14" upper="3.14" effort="0" velocity="2.617993877992"/>
+    </joint>
+
+    <joint name="Joint5" type="revolute">
+      <origin xyz="0 0 -0.191" rpy="1.5708 0 0"/>
+      <parent link="Link4"/>
+      <child link="Link5"/>
+      <axis xyz="0 0 1.0"/>
+      <limit lower="-3.14" upper="3.14" effort="0" velocity="2.617993877992"/>
+    </joint>
+
+    <joint name="Joint6" type="revolute">
+      <origin xyz="0 -0.069 0.130" rpy="0 0 0"/>
+      <parent link="Link5"/>
+      <child link="Link6"/>
+      <axis xyz="0 1.0 0"/>
+      <limit lower="-3.14" upper="3.14" effort="0" velocity="2.617993877992"/>
+    </joint>
+
+  </robot>
