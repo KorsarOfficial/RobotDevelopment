@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<robot name="lamp">
+    <webots>
+        <plugin type="lamp_package.lamp_driver.LampDriver" />
+    </webots>
+</robot>
