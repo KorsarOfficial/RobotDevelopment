@@ -1,0 +1,212 @@
+# Работа с датчиками в RISDK
+
+## Введение
+Датчики играют ключевую роль в робототехнике, обеспечивая систему информацией о внешней среде и состоянии робота. RISDK предоставляет широкие возможности для работы с различными типами датчиков.
+
+## Типы поддерживаемых датчиков
+1. **Датчики расстояния** - ультразвуковые, инфракрасные, лидары
+2. **Датчики силы и момента** - тензодатчики, датчики крутящего момента
+3. **Датчики ориентации** - акселерометры, гироскопы, магнитометры (IMU)
+4. **Датчики изображения** - камеры, тепловизоры
+5. **Датчики касания** - тактильные датчики, концевые выключатели
+
+## Создание и инициализация датчиков
+
+### Общие принципы инициализации
+```c
+// Создание компонента датчика
+RISDK_COMPONENT_HANDLE sensor_handle = RI_SDK_CreateSensorComponent(sdk_handle, "Sensor_Name");
+
+// Связывание датчика с контроллером
+RI_SDK_LinkSensorToController(sdk_handle, controller_handle, sensor_handle);
+
+// Инициализация датчика
+RI_SDK_exec_Sensor_Initialize(sensor_handle);
+```
+
+### Инициализация конкретных типов датчиков
+
+#### Датчик расстояния
+```c
+// Создание датчика расстояния
+RISDK_COMPONENT_HANDLE distance_sensor = RI_SDK_CreateDistanceSensorComponent(sdk_handle, "DistanceSensor1");
+
+// Установка параметров измерения
+RI_SDK_exec_DistanceSensor_SetRange(distance_sensor, 20.0, 400.0); // Диапазон измерения 20-400 мм
+```
+
+#### Датчик силы
+```c
+// Создание датчика силы
+RISDK_COMPONENT_HANDLE force_sensor = RI_SDK_CreateForceSensorComponent(sdk_handle, "ForceSensor1");
+
+// Установка порога срабатывания
+RI_SDK_exec_ForceSensor_SetThreshold(force_sensor, 5.0); // Порог 5 Н
+```
+
+## Чтение данных с датчиков
+
+### Общий принцип получения данных
+```c
+// Обновление данных с датчика
+RI_SDK_exec_Sensor_Update(sensor_handle);
+
+// Получение текущего значения с датчика
+RI_SDK_SensorData data;
+RI_SDK_exec_Sensor_GetData(sensor_handle, &data);
+```
+
+### Чтение с конкретных типов датчиков
+
+#### Чтение с датчика расстояния
+```c
+// Получение измеренного расстояния
+float distance;
+RI_SDK_exec_DistanceSensor_GetDistance(distance_sensor, &distance);
+```
+
+#### Чтение с силомоментного датчика
+```c
+// Получение данных о силе и моменте
+RI_SDK_ForceTorqueData ft_data;
+RI_SDK_exec_ForceSensor_GetForceTorque(force_sensor, &ft_data);
+
+// Доступ к отдельным компонентам
+float force_x = ft_data.force_x;
+float torque_z = ft_data.torque_z;
+```
+
+#### Чтение с IMU-датчика
+```c
+// Получение данных об ориентации
+RI_SDK_IMUData imu_data;
+RI_SDK_exec_IMU_GetData(imu_sensor, &imu_data);
+
+// Доступ к отдельным компонентам
+float accel_x = imu_data.accel_x;
+float gyro_y = imu_data.gyro_y;
+float quaternion_w = imu_data.quaternion_w;
+```
+
+## Настройка параметров датчиков
+
+### Установка частоты опроса
+```c
+// Установка частоты обновления данных с датчика (в Гц)
+RI_SDK_exec_Sensor_SetSamplingRate(sensor_handle, 100.0);
+```
+
+### Калибровка датчиков
+```c
+// Выполнение калибровки датчика
+RI_SDK_exec_Sensor_Calibrate(sensor_handle);
+
+// Для силомоментного датчика - калибровка нуля
+RI_SDK_exec_ForceSensor_Zero(force_sensor);
+```
+
+### Фильтрация данных с датчиков
+```c
+// Установка параметров фильтрации для уменьшения шума
+RI_SDK_FilterParameters filter_params;
+filter_params.type = RI_SDK_FILTER_MOVING_AVERAGE;
+filter_params.window_size = 5;
+RI_SDK_exec_Sensor_ConfigureFilter(sensor_handle, &filter_params);
+```
+
+## Работа с камерами
+
+### Инициализация камеры
+```c
+// Создание компонента камеры
+RISDK_COMPONENT_HANDLE camera = RI_SDK_CreateCameraComponent(sdk_handle, "Camera1");
+
+// Установка разрешения и частоты кадров
+RI_SDK_CameraConfig config;
+config.width = 640;
+config.height = 480;
+config.fps = 30;
+RI_SDK_exec_Camera_Configure(camera, &config);
+
+// Запуск потока видео
+RI_SDK_exec_Camera_Start(camera);
+```
+
+### Получение изображения с камеры
+```c
+// Захват кадра
+RI_SDK_Image image;
+RI_SDK_exec_Camera_CaptureFrame(camera, &image);
+
+// Получение указателя на данные изображения
+unsigned char* data = image.data;
+int width = image.width;
+int height = image.height;
+```
+
+## Обработка событий с датчиков
+
+### Настройка обработчиков событий
+```c
+// Функция-обработчик для события превышения порога
+void OnThresholdExceeded(RISDK_COMPONENT_HANDLE sensor, void* user_data) {
+    // Действия при превышении порога
+    printf("Threshold exceeded on sensor %p\n", sensor);
+}
+
+// Регистрация обработчика
+RI_SDK_exec_Sensor_RegisterThresholdCallback(sensor_handle, OnThresholdExceeded, NULL);
+```
+
+## Пример использования датчиков в Python
+
+```python
+# Инициализация SDK
+sdk_handle = RI_SDK_InitSDK()
+
+# Создание компонента устройства
+device = RI_SDK_CreateDeviceComponent(sdk_handle, "RobotDevice")
+
+# Создание и настройка датчика расстояния
+distance_sensor = RI_SDK_CreateDistanceSensorComponent(sdk_handle, "DistanceSensor")
+RI_SDK_LinkSensorToController(sdk_handle, device, distance_sensor)
+RI_SDK_exec_Sensor_Initialize(distance_sensor)
+RI_SDK_exec_DistanceSensor_SetRange(distance_sensor, 50.0, 500.0)
+
+# Главный цикл сбора данных
+try:
+    while True:
+        # Обновление данных с датчика
+        RI_SDK_exec_Sensor_Update(distance_sensor)
+        
+        # Получение текущего расстояния
+        distance = RI_SDK_exec_DistanceSensor_GetDistance(distance_sensor)
+        
+        print(f"Измеренное расстояние: {distance} мм")
+        
+        # Проверка на превышение порога
+        if distance < 100.0:
+            print("Внимание! Обнаружено препятствие!")
+        
+        time.sleep(0.1)  # Ожидание 100 мс между измерениями
+        
+except KeyboardInterrupt:
+    # Освобождение ресурсов при завершении
+    RI_SDK_DestroyComponent(distance_sensor)
+    RI_SDK_DestroyComponent(device)
+    RI_SDK_DestroySDK(sdk_handle)
+```
+
+## Рекомендации по работе с датчиками
+1. Всегда проверяйте статус инициализации датчика перед использованием.
+2. Калибруйте датчики перед началом работы для повышения точности измерений.
+3. Используйте фильтрацию при работе с зашумленными сигналами.
+4. Учитывайте частоту опроса датчиков при планировании циклов обработки.
+5. Настраивайте обработчики событий для оперативного реагирования на изменения среды.
+
+## Возможные проблемы и их решения
+- **Некорректные показания датчика**: Проверьте калибровку и физическое состояние датчика.
+- **Высокий уровень шума в данных**: Настройте параметры фильтрации сигнала.
+- **Медленная реакция системы**: Увеличьте частоту опроса датчиков или оптимизируйте алгоритмы обработки.
+- **Отсутствие данных с датчика**: Проверьте соединение и инициализацию датчика, убедитесь в правильной конфигурации.
+- **Конфликты между датчиками**: Разнесите по времени опрос различных датчиков для уменьшения нагрузки на шину данных. 
