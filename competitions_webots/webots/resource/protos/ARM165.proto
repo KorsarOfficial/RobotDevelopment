@@ -1,0 +1,322 @@
+#VRML_SIM R2025a utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# This is a proto file for Webots for the Arm1650
+# Extracted from: /home/artem/competitions_ws/src/arm1650_description/resource/urdf/arm1650.urdf
+
+PROTO ARM165 [
+  field  SFVec3f     translation     0 0 0
+  field  SFRotation  rotation        0 0 1 0
+  field  SFString    name            "ARM165"  # Is `Robot.name`.
+  field  SFString    controller      "extern"     # Is `Robot.controller`.
+  field  MFString    controllerArgs  []         # Is `Robot.controllerArgs`.
+  field  SFString    customData      ""         # Is `Robot.customData`.
+  field  SFBool      supervisor      TRUE      # Is `Robot.supervisor`.
+  field  SFBool      synchronization TRUE       # Is `Robot.synchronization`.
+  field  SFBool      selfCollision   FALSE      # Is `Robot.selfCollision
+  field  MFNode      toolSlot        []
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    selfCollision IS selfCollision
+    children [
+      Solid {
+        children [
+          DEF base_link_visual CadShape {
+            url "../meshes/arm165/manipulator/dae/base_link.dae"
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0.000000 0.000000 1.000000
+            }
+            device [
+              RotationalMotor {
+                name "Joint1"
+                maxVelocity 1.745329251994
+                minPosition -3.14
+                maxPosition 3.14
+                maxTorque 10000
+              }
+              PositionSensor {
+                name "Joint1_sensor"
+              }
+            ]
+            endPoint Solid {
+              children [
+                DEF shoulder_link_visual CadShape {
+                  url "../meshes/arm165/manipulator/dae/shoulder_link.dae"
+                }
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis 0.000000 1.000000 -0.000004
+                    anchor 0.000000 0.000000 0.190000
+                  }
+                  device [
+                    RotationalMotor {
+                      name "Joint2"
+                      maxVelocity 1.745329251994
+                      minPosition -3.14
+                      maxPosition 3.14
+                      maxTorque 10000
+                    }
+                    PositionSensor {
+                      name "Joint2_sensor"
+                    }
+                  ]
+                  endPoint Solid {
+                    translation 0.000000 0.000000 0.190000
+                    rotation -1.000000 0.000000 0.000000 1.570800
+                    children [
+                      Pose {
+                        rotation 1.000000 0.000000 0.000000 1.570800
+                        children [
+                          DEF upperarm_link_visual CadShape {
+                            url "../meshes/arm165/manipulator/dae/upperarm_link.dae"
+                          }
+                        ]
+                      }
+                      HingeJoint {
+                        jointParameters HingeJointParameters {
+                          axis 0.000000 0.000000 1.000000
+                          anchor 0.000000 -0.800000 0.000000
+                        }
+                        device [
+                          RotationalMotor {
+                            name "Joint3"
+                            maxVelocity 2.617993877992
+                            minPosition -3.14
+                            maxPosition 3.14
+                            maxTorque 10000
+                          }
+                          PositionSensor {
+                            name "Joint3_sensor"
+                          }
+                        ]
+                        endPoint Solid {
+                          translation 0.000000 -0.800000 0.000000
+                          children [
+                            Pose {
+                              rotation 1.000000 0.000000 0.000000 1.570800
+                              children [
+                                DEF forearm_link_visual CadShape {
+                                  url "../meshes/arm165/manipulator/dae/forearm_link.dae"
+                                }
+                              ]
+                            }
+                            HingeJoint {
+                              jointParameters HingeJointParameters {
+                                axis 0.000000 0.000000 1.000000
+                                anchor 0.000000 -0.720000 0.000000
+                              }
+                              device [
+                                RotationalMotor {
+                                  name "Joint4"
+                                  maxVelocity 2.617993877992
+                                  minPosition -3.14
+                                  maxPosition 3.14
+                                  maxTorque 10000
+                                }
+                                PositionSensor {
+                                  name "Joint4_sensor"
+                                }
+                              ]
+                              endPoint Solid {
+                                translation 0.000000 -0.720000 0.000000
+                                children [
+                                  Pose {
+                                    rotation 1.000000 0.000000 0.000000 1.570800
+                                    children [
+                                      DEF wrist1_link_visual CadShape {
+                                        url "../meshes/arm165/manipulator/dae/wrist1_link.dae"
+                                      }
+                                    ]
+                                  }
+                                  HingeJoint {
+                                    jointParameters HingeJointParameters {
+                                      axis 0.000000 -1.000000 -0.000004
+                                      anchor 0.000000 0.000000 -0.191000
+                                    }
+                                    device [
+                                      RotationalMotor {
+                                        name "Joint5"
+                                        maxVelocity 2.617993877992
+                                        minPosition -3.14
+                                        maxPosition 3.14
+                                        maxTorque 10000
+                                      }
+                                      PositionSensor {
+                                        name "Joint5_sensor"
+                                      }
+                                    ]
+                                    endPoint Solid {
+                                      translation 0.000000 0.000000 -0.191000
+                                      rotation 1.000000 0.000000 0.000000 1.570800
+                                      children [
+                                        DEF wrist2_link_visual CadShape {
+                                          url "../meshes/arm165/manipulator/dae/wrist2_link.dae"
+                                        }
+                                        HingeJoint {
+                                          jointParameters HingeJointParameters {
+                                            axis 0.000000 1.000000 0.000000
+                                            anchor 0.000000 -0.069000 0.130000
+                                          }
+                                          device [
+                                            RotationalMotor {
+                                              name "Joint6"
+                                              maxVelocity 2.617993877992
+                                              minPosition -3.14
+                                              maxPosition 3.14
+                                              maxTorque 10000
+                                            }
+                                            PositionSensor {
+                                              name "Joint6_sensor"
+                                            }
+                                          ]
+                                          endPoint Solid {
+                                            translation 0.000000 -0.069000 0.130000
+                                            children [
+                                              DEF wrist3_link_visual CadShape {
+                                                url "../meshes/arm165/manipulator/dae/wrist3_link.dae"
+                                              }
+                                              Group {
+                                                children IS toolSlot
+                                          
+                                              }
+                                            ]
+                                            name "Link6"
+                                            boundingObject DEF Link6 Mesh {
+                                              url "../meshes/arm165/manipulator/stl/Link6.stl"
+                                            }
+                                            physics Physics {
+                                              density -1
+                                              mass 0.001000
+                                              centerOfMass [ 0.000000 0.000000 0.000000 ]
+                                              inertiaMatrix [
+                                                1.000000e-03 1.000000e-03 1.000000e-03
+                                                0.000000e+00 0.000000e+00 0.000000e+00
+                                              ]
+                                            }
+                                          }
+                                         
+                                        }
+                                      ]
+                                      name "Link5"
+                                      boundingObject DEF Link5 Mesh {
+                                        url "../meshes/arm165/manipulator/stl/Link5.stl"
+                                      }
+                                      physics Physics {
+                                        density -1
+                                        mass 1.291000
+                                        centerOfMass [ 0.000000 0.000000 0.000000 ]
+                                        inertiaMatrix [
+                                          2.500000e-03 2.080000e-03 1.770000e-03
+                                          0.000000e+00 0.000000e+00 0.000000e+00
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                                name "Link4"
+                                boundingObject Pose {
+                                  rotation 1.000000 0.000000 0.000000 1.570800
+                                  children [
+                                    DEF Link4 Mesh {
+                                      url "../meshes/arm165/manipulator/stl/Link4.stl"
+                                    }
+                                  ]
+                                }
+                                physics Physics {
+                                  density -1
+                                  mass 1.291000
+                                  centerOfMass [ 0.000000 0.000000 0.000000 ]
+                                  inertiaMatrix [
+                                    2.500000e-03 2.080000e-03 1.770000e-03
+                                    0.000000e+00 0.000000e+00 0.000000e+00
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                          name "Link3"
+                          boundingObject Pose {
+                            rotation 1.000000 0.000000 0.000000 1.570800
+                            children [
+                              DEF Link3 Mesh {
+                                url "../meshes/arm165/manipulator/stl/Link3.stl"
+                              }
+                            ]
+                          }
+                          physics Physics {
+                            density -1
+                            mass 2.311000
+                            centerOfMass [ 0.000000 0.000000 0.000000 ]
+                            inertiaMatrix [
+                              3.241000e-02 3.123000e-02 4.380000e-03
+                              0.000000e+00 0.000000e+00 0.000000e+00
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                    name "Link2"
+                    boundingObject Pose {
+                      rotation 1.000000 0.000000 0.000000 1.570800
+                      children [
+                        DEF Link2 Mesh {
+                          url "../meshes/arm165/manipulator/stl/Link2.stl"
+                        }
+                      ]
+                    }
+                    physics Physics {
+                      density -1
+                      mass 8.341000
+                      centerOfMass [ 0.000000 0.000000 0.000000 ]
+                      inertiaMatrix [
+                        3.065800e-01 2.933000e-01 3.147000e-02
+                        0.000000e+00 0.000000e+00 0.000000e+00
+                      ]
+                    }
+                  }
+                }
+              ]
+              name "Link1"
+              boundingObject DEF Link1 Mesh {
+                url "../meshes/arm165/manipulator/stl/Link1.stl"
+              }
+              physics Physics {
+                density -1
+                mass 3.661000
+                centerOfMass [ 0.000000 0.000000 0.000000 ]
+                inertiaMatrix [
+                  1.843000e-02 1.419000e-02 1.341000e-02
+                  0.000000e+00 0.000000e+00 0.000000e+00
+                ]
+              }
+            }
+          }
+        ]
+        name "Base_link"
+        boundingObject DEF Base Mesh {
+          url "../meshes/arm165/manipulator/stl/Base.stl"
+        }
+        physics Physics {
+          density -1
+          mass 4.021000
+          centerOfMass [ 0.000000 0.000000 0.000000 ]
+          inertiaMatrix [
+            1.299000e-02 1.299000e-02 2.208000e-02
+            0.000000e+00 0.000000e+00 0.000000e+00
+          ]
+        }
+      }
+    ]
+    name IS name
+  }
+}
