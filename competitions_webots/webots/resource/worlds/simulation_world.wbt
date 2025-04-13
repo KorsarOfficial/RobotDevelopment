@@ -1,0 +1,188 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/floors/protos/Floor.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/ScuffedPlastic.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/FormedConcrete.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/solids/protos/SolidBox.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/OldSteel.proto"
+EXTERNPROTO "../protos/ARM165.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/devices/robotiq/protos/RobotiqEPickGripper.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/factory/conveyors/protos/ConveyorBelt.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/objects/tables/protos/Table.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/ThreadMetalPlate.proto"
+EXTERNPROTO "../protos/Lamp.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2023b/projects/appearances/protos/ReflectiveSurface.proto"
+
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.22427871666533564 0.07700670208396951 0.9714777532630897 2.514428704056861
+  position 8.615119961852958 -5.7014658287809095 5.935823389154019
+}
+TexturedBackground {
+  texture "empty_office"
+}
+TexturedBackgroundLight {
+}
+Floor {
+  size 8 8
+  appearance FormedConcrete {
+  }
+}
+Table {
+  translation 1.34 0 0
+  size 1 1 0.74
+  trayAppearance ThreadMetalPlate {
+  }
+  legAppearance OldSteel {
+  }
+}
+Robot {
+  translation 0 -2.22 2.09
+  rotation 1 0 0 -1.5707953071795862
+  children [
+    Camera {
+    }
+  ]
+  controller "camera"
+}
+ConveyorBelt {
+  translation 0 -1.12 0
+  speed 0
+}
+DEF WALL Solid {
+  translation -0.01 4.00148 1.48682
+  rotation 1 0 0 1.57
+  children [
+    Shape {
+      appearance ScuffedPlastic {
+        textureTransform TextureTransform {
+          scale 4.71 1
+        }
+        IBLStrength 4
+      }
+      geometry Plane {
+        size 8 3
+      }
+    }
+  ]
+  name "solid(1)"
+}
+DEF WALL Solid {
+  translation -4.0088 0.00786 1.48985
+  rotation -0.5771962283175169 -0.5776572284998716 -0.5771972283179124 -2.093935307179586
+  children [
+    Shape {
+      appearance ScuffedPlastic {
+        textureTransform TextureTransform {
+          scale 4.71 1
+        }
+        IBLStrength 4
+      }
+      geometry Plane {
+        size 8 3
+      }
+    }
+  ]
+  name "solid(2)"
+}
+SolidBox {
+  translation 1.26 -0.02 0.78
+  name "cube"
+  size 0.05 0.05 0.05
+  appearance ReflectiveSurface {
+  }
+  physics Physics {
+  }
+}
+ARM165 {
+  translation 0 0 0.7
+  controller "<extern>"
+  toolSlot [
+    RobotiqEPickGripper {
+      rotation 1 0 0 1.5707996938995747
+    }
+  ]
+}
+SolidBox {
+  translation 0 0 0.35
+  size 0.35 0.35 0.7
+  appearance OldSteel {
+  }
+}
+Lamp {
+  translation 1.77 0.41 0.74
+}
+Solid {
+  translation 1.26 -0.02 0.75
+  children [
+    CadShape {
+      url [
+        "../assets/box.dae"
+      ]
+    }
+  ]
+  name "box"
+}
+Solid {
+  translation 0.53 -1.11 0.61
+  children [
+    CadShape {
+      url [
+        "../assets/box.dae"
+      ]
+    }
+  ]
+  name "box(1)"
+}
+Solid {
+  translation 0.03 -1.11 0.61
+  children [
+    CadShape {
+      url [
+        "../assets/box.dae"
+      ]
+    }
+  ]
+  name "box(2)"
+}
+Solid {
+  translation -0.47 -1.11 0.61
+  children [
+    CadShape {
+      url [
+        "../assets/box.dae"
+      ]
+    }
+  ]
+  name "box(3)"
+}
+Robot {
+  children [
+    Camera {
+      translation 1.3 0.02 1.72
+      rotation 0 1 0 1.5708
+      fieldOfView 1
+      width 640
+      height 480
+    }
+  ]
+  name "Table camera"
+  controller "<extern>"
+  supervisor TRUE
+}
+Robot {
+  translation 0.14 -1.15 1.59
+  children [
+    Camera {
+      rotation 0 1 0 1.5708
+      fieldOfView 1
+      width 640
+      height 480
+    }
+  ]
+  name "Conveyor camera"
+  controller "<extern>"
+}
