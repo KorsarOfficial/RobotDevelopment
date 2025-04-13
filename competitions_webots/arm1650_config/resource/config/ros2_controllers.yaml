@@ -1,0 +1,31 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100
+
+    arm1650_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    arm1650_joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+
+arm1650_controller:
+  ros__parameters:
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+
+    joints:
+      - Joint1
+      - Joint2
+      - Joint3
+      - Joint4
+      - Joint5
+      - Joint6
+
+
+    state_publish_rate: 125.0
+    action_monitor_rate: 100.0
+    allow_integration_in_goal_trajectories: true
+
