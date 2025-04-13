@@ -1,0 +1,11 @@
+STATE;KEY;IP;PORT;NAME;ENTRANCE;UDP_KEY
+10;M1;192.168.42.10;8888;Robot_1;InOut;m
+11;M;192.168.42.11;8888;Robot_2;InOut;g1
+12;P1;192.168.42.12;8888;Robot_3;InOut;p
+21;T;192.168.42.21;8888;TrafficLights_1;InOut;l1
+22;T;192.168.42.22;8888;TrafficLights_2;InOut;l2
+23;T;192.168.42.23;8888;TrafficLights_3;InOut;l3
+14;C;192.168.42.14;8888;Conveyor;InOut;s
+15;SC;192.168.42.15;8888;SmartCamera;InOut;c
+16;R2;192.168.42.16;8888;WorkshiftTerminal;InOut;r
+24;B1;192.168.42.24;8888;LightBarrier;InOut;b
